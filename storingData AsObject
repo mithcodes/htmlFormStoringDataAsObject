@@ -1,0 +1,56 @@
+<html>
+  <body>
+    <form onsubmit="saveToLocalStorage(event)">
+      <label>Name</label>
+      <input type="text" name="username" required/>
+      
+      <label>Email</label>
+      <input type="email" name="emailId" required/>
+      
+      <label>Number</label>
+      <input type="tel" name="phoneNumber" required/>
+      
+      <input type="submit" value="Submit"/>
+    </form>
+    
+    <script>
+      function saveToLocalStorage(event) {
+        event.preventDefault();
+
+        // Get form input values
+        var name = document.querySelector('input[name="username"]').value;
+        var email = document.querySelector('input[name="emailId"]').value;
+        var number = document.querySelector('input[name="phoneNumber"]').value;
+        
+        // Create an object with the form data
+        var formData = {
+          name: name,
+          email: email,
+          number: number
+        };
+
+        // Check if localStorage is supported
+        if (typeof(Storage) !== "undefined") {
+          // Retrieve existing data from local storage
+          var existingData = JSON.parse(localStorage.getItem("formData")) || [];
+          
+          // Append the new form data object to the existing data
+          existingData.push(formData);
+          
+          // Save the updated data to local storage
+          localStorage.setItem("formData", JSON.stringify(existingData));
+          
+          // Clear the form inputs
+          document.querySelector('input[name="username"]').value = "";
+          document.querySelector('input[name="emailId"]').value = "";
+          document.querySelector('input[name="phoneNumber"]').value = "";
+          
+          // Optional: Display a success message
+          alert("Form data saved to local storage!");
+        } else {
+          alert("Local storage is not supported.");
+        }
+      }
+    </script>
+  </body>
+</html>
